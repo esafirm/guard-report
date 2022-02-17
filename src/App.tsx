@@ -4,6 +4,8 @@ import SideBar from './components/SideBar';
 import Container from './components/Container';
 import Content from './components/Content';
 
+import { useDebounce } from './utils/hooks';
+
 import { getData, getDataKeys } from './datahandler';
 
 function App() {

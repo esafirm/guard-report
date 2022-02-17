@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { View, FlatList } from 'react-native';
 import ListItem from './ListItem';
 import Header from './Header';
 
@@ -7,14 +7,11 @@ interface ContentProps {
   getDataKeys: () => string[];
 }
 
-function renderList(props: ContentProps) {
-  const keys = props.getDataKeys();
-  return keys
-    .filter((item) => item.startsWith(props.filter))
-    .map((item) => <ListItem value={item} />);
-}
-
 export default function Content(props: ContentProps) {
+  const items = props
+    .getDataKeys()
+    .filter((item) => item.startsWith(props.filter));
+
   return (
     <View
       style={{
@@ -24,7 +21,11 @@ export default function Content(props: ContentProps) {
       }}
     >
       <Header header={'Class Name'} />
-      {renderList(props)}
+      <FlatList
+        data={items}
+        renderItem={(listItem) => <ListItem value={listItem.item} />}
+        keyExtractor={(_, index) => `${index}`}
+      />
     </View>
   );
 }
