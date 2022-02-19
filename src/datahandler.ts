@@ -4,19 +4,15 @@
 let data: RawJson = {};
 let dataArray: JsonItem[] = [];
 let packageArray: string[] = [];
-
-export interface ClassFlags {
-  unused: boolean;
-}
 export interface JsonItem {
   parent: string;
-  flags: ClassFlags;
+  tags: string[];
   children: string[];
 }
 
 interface RawJson {
   [key: string]: {
-    flags: ClassFlags;
+    tags: string[];
     children: string[];
   };
 }

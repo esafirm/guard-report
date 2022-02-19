@@ -1,12 +1,6 @@
-import {
-  View,
-  Text,
-  ViewStyle,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
+import { View, Text, ViewStyle, Pressable, ColorValue } from 'react-native';
 import Chip from './Chip';
-import { ClassFlags, JsonItem } from '../../datahandler';
+import { JsonItem } from '../../datahandler';
 import Colors from '../../utils/colors';
 
 interface ClassListItemProps {
@@ -14,10 +8,28 @@ interface ClassListItemProps {
   onClassSelected: (className: string) => void;
 }
 
-function generateFlagChips(flags: ClassFlags) {
+function getTagColor(tag: string) {
+  if (tag == 'unused') {
+    return Colors.YELLOW;
+  }
+  if (tag == 'data') {
+    return Colors.BLUE;
+  }
+  if (tag == 'dagger') {
+    return Colors.GREEN;
+  }
+  if (tag == 'binding') {
+    return Colors.PURPLE;
+  }
+  return Colors.RED;
+}
+
+function generateTagsChips(tags: string[]) {
   return (
     <View style={{ flexDirection: 'row' }}>
-      {flags.unused && <Chip label={'Class'} color={Colors.YELLOW} />}
+      {tags.map((tag) => (
+        <Chip label={tag} color={getTagColor(tag)} />
+      ))}
     </View>
   );
 }
@@ -26,7 +38,7 @@ export default function ClassListItem(props: ClassListItemProps) {
   const className = props.item.parent;
   const children = [
     <Text>{props.item.parent}</Text>,
-    generateFlagChips(props.item.flags),
+    generateTagsChips(props.item.tags),
   ];
 
   const parentStyle: ViewStyle = {
@@ -37,7 +49,7 @@ export default function ClassListItem(props: ClassListItemProps) {
     borderBottomWidth: 0.1,
   };
 
-  if (props.item.flags.unused) {
+  if (props.item.tags.includes('unused')) {
     return <View style={parentStyle}>{children}</View>;
   }
 
