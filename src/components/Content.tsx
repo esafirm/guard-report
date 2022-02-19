@@ -8,6 +8,7 @@ import { getDataArray } from '../datahandler';
 import { useState } from 'react';
 interface ContentProps {
   filter: string;
+  tagFilter: string[];
 }
 
 interface ContentState {
@@ -64,6 +65,7 @@ function getContent(
     return (
       <ClassContent
         filter={props.filter}
+        tagFilter={props.tagFilter}
         packageName={state.currentPackage}
         onClassSelected={(selectedClass) => {
           setState({

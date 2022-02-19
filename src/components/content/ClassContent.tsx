@@ -1,16 +1,29 @@
 import { FlatList } from 'react-native';
 import ClassListItem from '../listitem/ClassListItem';
-import { getPackageArray } from '../../datahandler';
+import { getPackageArray, JsonItem } from '../../datahandler';
 
 interface ClassContentProps {
   filter: string;
+  tagFilter: string[];
   packageName: string;
   onClassSelected: (className: string) => void;
 }
 
+function isShow(props: ClassContentProps, item: JsonItem): boolean {
+  if (!item.parent.includes(props.filter)) {
+    return false;
+  }
+
+  if (item.tags.length == 0) {
+    return true;
+  }
+
+  return item.tags.every((tag) => props.tagFilter.includes(tag));
+}
+
 export default function ClassContent(props: ClassContentProps) {
   const classes = getPackageArray()[props.packageName].filter((item) =>
-    item.parent.includes(props.filter)
+    isShow(props, item)
   );
 
   return (
@@ -19,7 +32,7 @@ export default function ClassContent(props: ClassContentProps) {
       renderItem={(listItem) => (
         <ClassListItem
           item={listItem.item}
-          onClassSelected={props.onClassSelected} 
+          onClassSelected={props.onClassSelected}
         />
       )}
     />

@@ -3,7 +3,8 @@
  */
 let data: RawJson = {};
 let dataArray: JsonItem[] = [];
-let packageArray: string[] = [];
+let processedJson: ProcessedJson = {};
+let availableTags: string[] = [];
 export interface JsonItem {
   parent: string;
   tags: string[];
@@ -64,32 +65,39 @@ function getPackageName(parent: string) {
 }
 
 export function getPackageArray(): ProcessedJson {
-  const dataArray = getDataArray();
-  const result: ProcessedJson = {};
+  if (Object.keys(processedJson).length == 0) {
+    const dataArray = getDataArray();
+    const result: ProcessedJson = {};
 
-  dataArray.forEach((item) => {
-    const parent = item.parent;
-    const packageName = getPackageName(parent);
+    dataArray.forEach((item) => {
+      const parent = item.parent;
+      const packageName = getPackageName(parent);
 
-    const key = `com.gojek.${packageName}`;
-    let array = result[key];
-    if (!array) {
-      array = [];
-      result[key] = array;
-    }
+      const key = `com.gojek.${packageName}`;
+      let array = result[key];
+      if (!array) {
+        array = [];
+        result[key] = array;
+      }
 
-    array.push(item);
-  });
+      array.push(item);
+    });
 
-  return result;
+    processedJson = result;
+  }
+
+  return processedJson;
 }
 
 export function getAvailableTags(): string[] {
-  const data = getPackageArray();
-  const tags = Object.values(data)
-    .flatMap((i) => i)
-    .flatMap((i) => i.tags);
+  if (availableTags.length == 0) {
+    const data = getPackageArray();
+    const tags = Object.values(data)
+      .flatMap((i) => i)
+      .flatMap((i) => i.tags);
 
-  // distinct
-  return Array.from(new Set(tags));
+    // distinct
+    availableTags = Array.from(new Set(tags)).sort();
+  }
+  return availableTags;
 }
