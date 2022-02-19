@@ -1,7 +1,6 @@
-import { View, Text, ViewStyle, Pressable, ColorValue } from 'react-native';
-import Chip, { generateTagsChips } from './Chip';
+import { View, Text, ViewStyle, Pressable } from 'react-native';
+import { generateTagsChips } from './Chip';
 import { JsonItem } from '../../datahandler';
-import Colors from '../../utils/colors';
 
 interface ClassListItemProps {
   item: JsonItem;

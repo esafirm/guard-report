@@ -30,16 +30,16 @@ export default function Chip(props: ChipProps) {
 }
 
 function getTagColor(tag: string) {
-  if (tag == 'unused') {
+  if (tag === 'unused') {
     return Colors.YELLOW;
   }
-  if (tag == 'data') {
+  if (tag === 'data') {
     return Colors.BLUE;
   }
-  if (tag == 'dagger') {
+  if (tag === 'dagger') {
     return Colors.GREEN;
   }
-  if (tag == 'binding') {
+  if (tag === 'binding') {
     return Colors.PURPLE;
   }
   return Colors.RED;

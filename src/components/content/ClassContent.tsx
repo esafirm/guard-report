@@ -14,7 +14,7 @@ function isShow(props: ClassContentProps, item: JsonItem): boolean {
     return false;
   }
 
-  if (item.tags.length == 0) {
+  if (item.tags.length === 0) {
     return true;
   }
 

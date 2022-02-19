@@ -3,9 +3,6 @@ import { TextInput, View, Text } from 'react-native';
 
 import { useDebounce } from '../utils/hooks';
 
-import { getAvailableTags } from '../datahandler';
-import Chip from './listitem/Chip';
-
 interface SideBarProps {
   onChangeFilter: (filter: string) => void;
   children: React.ReactNode;
@@ -14,7 +11,6 @@ interface SideBarProps {
 export default function SideBar(props: SideBarProps) {
   const [internalFilter, setFilter] = useState('');
   const debouncedValue = useDebounce(internalFilter, 500);
-  const avaialbleTags = getAvailableTags();
 
   useEffect(() => {
     props.onChangeFilter(debouncedValue);

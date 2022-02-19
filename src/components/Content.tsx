@@ -4,7 +4,6 @@ import ClassContent from './content/ClassContent';
 import PackageContent from './content/PackageContent';
 import SymbolContent from './content/SymbolContent';
 
-import { getDataArray } from '../datahandler';
 import { useState } from 'react';
 interface ContentProps {
   filter: string;
@@ -91,10 +90,6 @@ function getContent(
 
 export default function Content(props: ContentProps) {
   const [state, setState] = useState<ContentState>({});
-
-  const items = getDataArray().filter((item) =>
-    item.parent.startsWith(props.filter)
-  );
 
   return (
     <View

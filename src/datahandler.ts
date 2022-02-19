@@ -22,7 +22,7 @@ interface ProcessedJson {
 }
 
 export function getData(): RawJson {
-  if (Object.keys(data).length == 0) {
+  if (Object.keys(data).length === 0) {
     data = require('./data.json') as RawJson;
   }
   return data;
@@ -49,7 +49,7 @@ function getPackageName(parent: string) {
   const firstDot = processed.indexOf('.');
   // This means it only three or 4 level package
   // Ex: com.example.processor.ProcessorInterface
-  if (firstDot == -1) {
+  if (firstDot === -1) {
     return processed;
   }
 
@@ -65,7 +65,7 @@ function getPackageName(parent: string) {
 }
 
 export function getPackageArray(): ProcessedJson {
-  if (Object.keys(processedJson).length == 0) {
+  if (Object.keys(processedJson).length === 0) {
     const dataArray = getDataArray();
     const result: ProcessedJson = {};
 
@@ -90,7 +90,7 @@ export function getPackageArray(): ProcessedJson {
 }
 
 export function getAvailableTags(): string[] {
-  if (availableTags.length == 0) {
+  if (availableTags.length === 0) {
     const data = getPackageArray();
     const tags = Object.values(data)
       .flatMap((i) => i)

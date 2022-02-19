@@ -31,7 +31,7 @@ export default function TagFilter(props: TagFilterProps) {
               if (isChecked) {
                 props.onSetTagFilter([...props.tagFilter, tag]);
               } else {
-                const newFilter = props.tagFilter.filter((f) => f != tag);
+                const newFilter = props.tagFilter.filter((f) => f !== tag);
                 props.onSetTagFilter(newFilter);
               }
             }}
