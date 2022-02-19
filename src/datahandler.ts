@@ -42,9 +42,13 @@ export function getDataArray(): JsonItem[] {
   return dataArray;
 }
 
+const APP_PACKAGE = process.env.REACT_APP_PACKAGE;
+
 function getPackageName(parent: string) {
   const className = parent.substring(parent.lastIndexOf('.'));
-  const processed = parent.replace('com.gojek.', '').replace(className, '');
+  const processed = parent
+    .replace(`${APP_PACKAGE}.`, '')
+    .replace(className, '');
 
   const firstDot = processed.indexOf('.');
   // This means it only three or 4 level package
@@ -73,7 +77,7 @@ export function getPackageArray(): ProcessedJson {
       const parent = item.parent;
       const packageName = getPackageName(parent);
 
-      const key = `com.gojek.${packageName}`;
+      const key = `${APP_PACKAGE}.${packageName}`;
       let array = result[key];
       if (!array) {
         array = [];

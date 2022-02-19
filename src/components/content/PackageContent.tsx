@@ -1,7 +1,6 @@
 import { FlatList } from 'react-native';
 import PackageListItem from '../listitem/PackageListItem';
 import { getPackageArray, JsonItem, NO_TAG } from '../../datahandler';
-import TagFilter from '../TagFilter';
 import { useMemo } from 'react';
 
 interface PackageContentProps {
