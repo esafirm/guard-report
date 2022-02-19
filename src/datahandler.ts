@@ -84,6 +84,12 @@ export function getPackageArray(): ProcessedJson {
   return result;
 }
 
-export function getClassesForPackage() {
-  const packageArray = getPackageArray();
+export function getAvailableTags(): string[] {
+  const data = getPackageArray();
+  const tags = Object.values(data)
+    .flatMap((i) => i)
+    .flatMap((i) => i.tags);
+
+  // distinct
+  return Array.from(new Set(tags));
 }

@@ -8,16 +8,21 @@ interface PackageContentProps {
 }
 
 export default function PackageContent(props: PackageContentProps) {
-  const packages = Object.keys(getPackageArray()).filter((item) =>
-    item.includes(props.filter)
-  );
+  const data = getPackageArray();
+  const packages = Object.keys(data)
+    .filter((k) => k.includes(props.filter))
+    .map((key) => ({
+      key: key,
+      tags: data[key].flatMap((item) => item.tags),
+    }));
 
   return (
     <FlatList
       data={packages}
       renderItem={(listItem) => (
         <PackageListItem
-          packageName={listItem.item}
+          packageName={listItem.item.key}
+          tags={listItem.item.tags}
           onPackagePressed={props.onPackageSelected}
         />
       )}
