@@ -9,7 +9,7 @@ export default function PackageListItem(props: PackageListItemProps) {
   return (
     <TouchableOpacity
       onPress={() => props.onPackagePressed(props.packageName)}
-      style={{ paddingHorizontal: 16, paddingVertical: 8 }}
+      style={{ padding: 16, borderBottomColor: '#AAA', borderBottomWidth: 0.1 }}
     >
       <Text>{props.packageName}</Text>
     </TouchableOpacity>

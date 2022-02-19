@@ -1,9 +1,10 @@
-import { View, FlatList } from 'react-native';
-import PackageListItem from './listitem/PackageListItem';
-import ClassListItem from './listitem/ClassListItem';
+import { View } from 'react-native';
 import Header from './Header';
+import ClassContent from './content/ClassContent';
+import PackageContent from './content/PackageContent';
+import SymbolContent from './content/SymbolContent';
 
-import { getDataArray, getPackageArray } from '../datahandler';
+import { getDataArray } from '../datahandler';
 import { useState } from 'react';
 interface ContentProps {
   filter: string;
@@ -12,48 +13,6 @@ interface ContentProps {
 interface ContentState {
   currentPackage?: string;
   currentClass?: string;
-}
-
-interface PackageContentProps {
-  filter: string;
-  onPackageSelected: (packageName: string) => void;
-}
-
-function PackageContent(props: PackageContentProps) {
-  const packages = Object.keys(getPackageArray()).filter((item) =>
-    item.includes(props.filter)
-  );
-
-  return (
-    <FlatList
-      data={packages}
-      renderItem={(listItem) => (
-        <PackageListItem
-          packageName={listItem.item}
-          onPackagePressed={props.onPackageSelected}
-        />
-      )}
-    />
-  );
-}
-
-interface ClassContentProps {
-  filter: string;
-  packageName: string;
-  onClassSelected: (className: string) => void;
-}
-
-function ClassContent(props: ClassContentProps) {
-  const classes = getPackageArray()[props.packageName].filter((item) =>
-    item.parent.includes(props.filter)
-  );
-
-  return (
-    <FlatList
-      data={classes}
-      renderItem={(listItem) => <ClassListItem item={listItem.item} />}
-    />
-  );
 }
 
 function getHeader(
@@ -91,12 +50,27 @@ function getContent(
   state: ContentState,
   setState: (state: ContentState) => void
 ) {
+  if (state.currentClass && state.currentPackage) {
+    return (
+      <SymbolContent
+        filter={props.filter}
+        packageName={state.currentPackage}
+        className={state.currentClass}
+      />
+    );
+  }
+
   if (state.currentPackage) {
     return (
       <ClassContent
         filter={props.filter}
         packageName={state.currentPackage}
-        onClassSelected={() => {}}
+        onClassSelected={(selectedClass) => {
+          setState({
+            currentClass: selectedClass,
+            currentPackage: state.currentPackage,
+          });
+        }}
       />
     );
   }
