@@ -1,13 +1,28 @@
-import { Text } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 interface HeaderProps {
   header: string;
+  onBackPressed?: () => void;
 }
 
 export default function Header(props: HeaderProps) {
   return (
-    <Text style={{ padding: 8, fontWeight: '700', backgroundColor: '#AAA' }}>
-      {props.header}
-    </Text>
+    <View
+      style={{
+        flexDirection: 'row',
+        padding: 8,
+        backgroundColor: '#AAA',
+      }}
+    >
+      {props.onBackPressed && (
+        <TouchableOpacity
+          style={{ paddingHorizontal: 8 }}
+          onPress={props.onBackPressed}
+        >
+          <Text style={{ fontWeight: '700' }}>{'<<'}</Text>
+        </TouchableOpacity>
+      )}
+      <Text style={{ fontWeight: '700' }}>{props.header}</Text>
+    </View>
   );
 }
