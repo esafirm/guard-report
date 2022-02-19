@@ -79,6 +79,7 @@ function getContent(
   return (
     <PackageContent
       filter={props.filter}
+      tagFilter={props.tagFilter}
       onPackageSelected={(selected) => {
         setState({
           currentPackage: selected,

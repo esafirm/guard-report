@@ -89,6 +89,8 @@ export function getPackageArray(): ProcessedJson {
   return processedJson;
 }
 
+export const NO_TAG = 'No Tag';
+
 export function getAvailableTags(): string[] {
   if (availableTags.length === 0) {
     const data = getPackageArray();
@@ -97,7 +99,7 @@ export function getAvailableTags(): string[] {
       .flatMap((i) => i.tags);
 
     // distinct
-    availableTags = Array.from(new Set(tags)).sort();
+    availableTags = [NO_TAG, ...Array.from(new Set(tags)).sort()];
   }
   return availableTags;
 }

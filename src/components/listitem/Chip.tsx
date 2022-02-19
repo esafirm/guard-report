@@ -42,7 +42,7 @@ function getTagColor(tag: string) {
   if (tag === 'binding') {
     return Colors.PURPLE;
   }
-  return Colors.RED;
+  return Colors.BLACK;
 }
 
 export function generateTagsChips(tags: string[]) {

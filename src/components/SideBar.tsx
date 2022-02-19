@@ -38,7 +38,7 @@ export default function SideBar(props: SideBarProps) {
           paddingVertical: 16,
         }}
       >
-        Include tags:
+        Include content
       </Text>
 
       {props.children}

@@ -1,6 +1,6 @@
 import { FlatList } from 'react-native';
 import ClassListItem from '../listitem/ClassListItem';
-import { getPackageArray, JsonItem } from '../../datahandler';
+import { getPackageArray, JsonItem, NO_TAG } from '../../datahandler';
 
 interface ClassContentProps {
   filter: string;
@@ -15,7 +15,7 @@ function isShow(props: ClassContentProps, item: JsonItem): boolean {
   }
 
   if (item.tags.length === 0) {
-    return true;
+    return props.tagFilter.includes(NO_TAG);
   }
 
   return item.tags.every((tag) => props.tagFilter.includes(tag));
