@@ -95,10 +95,7 @@ class ResultBuilder {
 
   addParent(parentClass: string) {
     const child = this.getEmptyChild();
-    this.result = {
-      ...this.result,
-      [parentClass]: child,
-    };
+    this.result[parentClass] = child;
   }
 
   addChild(parentClass: string, child: string) {
@@ -115,6 +112,7 @@ class ResultBuilder {
   }
 
   build(): string {
+    console.log('Building string from result', this.result);
     return JSON.stringify(this.result);
   }
 
@@ -166,14 +164,15 @@ class ProguardResultVisitorImpl implements ProguardResultVisitor {
 const fs = require('fs');
 const readline = require('readline');
 
-const inputPath = '/Users/esa.firman/Desktop/usage.txt';
+const inputPath = 'usage.txt';
+const outputPath = 'src/data.json';
 
 if (!fs.existsSync(inputPath)) {
   throw new Error(`Input not exists at: ${inputPath}`);
 }
 
 const lineReader = readline.createInterface({
-  input: fs.createReadStream('/Users/esa.firman/Desktop/usage.txt'),
+  input: fs.createReadStream(inputPath),
 });
 
 const builder = new ResultBuilder();
@@ -183,7 +182,6 @@ let parentClass = '';
 
 lineReader.on('line', (line: string) => {
   const valid = isValidClass(line);
-  const internal = isInternalSymbol(line);
 
   if (valid) {
     console.log(`Visit class ${line}`);
@@ -195,7 +193,7 @@ lineReader.on('line', (line: string) => {
     } else {
       visitor.visitClass(line, true);
     }
-  } else if (internal && parentClass) {
+  } else if (isInternalSymbol(line) && parentClass) {
     console.log(`visit internal $line : ${parentClass}`);
     visitor.visitInternalSymbol(line.trim(), parentClass);
   } else {
@@ -204,9 +202,12 @@ lineReader.on('line', (line: string) => {
   }
 });
 
+console.log('AA!!!');
+
 const content = builder.build();
-fs.writeFile('build/guard_result.json', content, (err: Error) => {
+fs.writeFile(outputPath, content, (err: Error) => {
   if (err) {
+    console.log('Error is happening!');
     console.error(err);
   } else {
     console.log('Report parsing success!');
