@@ -112,8 +112,7 @@ class ResultBuilder {
   }
 
   build(): string {
-    console.log('Building string from result', this.result);
-    return JSON.stringify(this.result);
+    return JSON.stringify(this.result, null, 2);
   }
 
   private getEmptyChild() {
@@ -202,14 +201,18 @@ lineReader.on('line', (line: string) => {
   }
 });
 
-console.log('AA!!!');
+lineReader.on('error', (err: Error) => {
+  throw err;
+});
 
-const content = builder.build();
-fs.writeFile(outputPath, content, (err: Error) => {
-  if (err) {
-    console.log('Error is happening!');
-    console.error(err);
-  } else {
-    console.log('Report parsing success!');
-  }
+lineReader.on('close', () => {
+  const content = builder.build();
+  fs.writeFile(outputPath, content, (err: Error) => {
+    if (err) {
+      console.log('Error is happening!');
+      console.error(err);
+    } else {
+      console.log('Report parsing success!');
+    }
+  });
 });
