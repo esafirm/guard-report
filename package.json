@@ -69,7 +69,7 @@
     "test": "node scripts/test.js",
     "parse": "ts-node --skip-project scripts/parse.ts",
     "build-bin": "tsc ./scripts/parse.ts --skipLibCheck --outfile build/bin/index.js && chmod +x build/bin/index.js",
-    "create-report": "npm install && npm run parse && npm run build"
+    "create-report": "npm install --silent && npm run parse && npm run build"
   },
   "bin": {
     "create-guard-report": "./build/bin/index.js"

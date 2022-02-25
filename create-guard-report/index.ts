@@ -1,14 +1,22 @@
 #!/usr/bin/env node
 
+//@ts-ignore
+const fs = require('fs');
 const { execSync } = require('child_process');
 
-const branch = "ts_parser"
-const zipFile =
-  `https://github.com/esafirm/guard-report/archive/refs/heads/${branch}.zip`;
+//@ts-ignore
+const inputPath = 'usage.txt';
+if (!fs.existsSync(inputPath)) {
+  throw new Error('You must have usage.txt in the root of directory');
+}
+
+const branch = 'ts_parser';
+const zipFile = `https://github.com/esafirm/guard-report/archive/refs/heads/${branch}.zip`;
 const targetFile = '/tmp/template.zip';
 const targetDir = '/tmp/cgr-template/';
+const realTargetDir = `${targetDir}guard-report-${branch}`;
 
-const options = { stdio: 'pipe' };
+const options = { stdio: 'ignore' };
 
 // Prepare env
 execSync(`rm -rf ${targetFile} ${targetDir}`, options);
@@ -25,10 +33,17 @@ execSync(
 );
 execSync(`rm -rf ${targetFile}`, options);
 
+// Copy the input
+execSync(`cp -a ${inputPath} ${realTargetDir}`);
+
 // Creating the report
 console.log('Creating the report…');
 execSync(
-  `cd ${targetDir}guard-report-${branch} && npm run create-report && mv ${targetDir}/build/index.html .`
+  `cd ${realTargetDir} && npm run create-report && mv ${targetDir}/build/index.html .`
 );
+
+// Cleanup
+console.log('Clean up…');
+execSync(`rm -rf ${targetDir}`);
 
 console.log('Process done!');
