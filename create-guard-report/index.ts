@@ -2,8 +2,9 @@
 
 const { execSync } = require('child_process');
 
+const branch = "ts_parser"
 const zipFile =
-  'https://github.com/esafirm/guard-report/archive/refs/heads/main.zip';
+  `https://github.com/esafirm/guard-report/archive/refs/heads/${branch}.zip`;
 const targetFile = '/tmp/template.zip';
 const targetDir = '/tmp/cgr-template/';
 
@@ -27,7 +28,7 @@ execSync(`rm -rf ${targetFile}`, options);
 // Creating the report
 console.log('Creating the report…');
 execSync(
-  `cd ${targetDir}/guard-report-main && npm run create-report && mv ${targetDir}/build/index.html .`
+  `cd ${targetDir}guard-report-${branch} && npm run create-report && mv ${targetDir}/build/index.html .`
 );
 
 console.log('Process done!');
