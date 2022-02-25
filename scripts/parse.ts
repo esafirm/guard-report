@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * @param line of the shrinking usage
  * @returns true if line is a valid class to be processed by the parser
