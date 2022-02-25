@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * @param line of the shrinking usage
  * @returns true if line is a valid class to be processed by the parser
@@ -82,15 +84,12 @@ interface ProguardResultVisitor {
 
 interface ResultNode {
   [parent: string]: {
-    NODE_TAGS: string[];
-    NODE_CHILDREN: string[];
+    tags: string[];
+    children: string[];
   };
 }
 
 class ResultBuilder {
-  static NODE_TAGS = 'tags';
-  static NODE_CHILDREN = 'children';
-
   result: ResultNode = {};
 
   addParent(parentClass: string) {
@@ -99,12 +98,12 @@ class ResultBuilder {
   }
 
   addChild(parentClass: string, child: string) {
-    const children = this.result[parentClass].NODE_CHILDREN;
+    const children = this.result[parentClass].children;
     children.push(child);
   }
 
   addTag(parentClass: string, tag: string) {
-    const children = this.result[parentClass].NODE_TAGS;
+    const children = this.result[parentClass].tags;
 
     if (!children.includes(tag)) {
       children.push(tag);
@@ -117,8 +116,8 @@ class ResultBuilder {
 
   private getEmptyChild() {
     return {
-      NODE_TAGS: [],
-      NODE_CHILDREN: [],
+      tags: [],
+      children: [],
     };
   }
 }
