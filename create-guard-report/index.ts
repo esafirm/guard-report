@@ -54,4 +54,4 @@ execSync(
 console.log('Clean up…');
 execSync(`rm -rf ${targetDir}`);
 
-console.log('Process done!');
+console.log(`Process done! Output file is in ${outputFile}`);
