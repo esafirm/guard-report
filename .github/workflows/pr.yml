@@ -17,16 +17,15 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
 
-  steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16.x'
+      - name: Install dependencies
+        run: yarn install
 
-    - name: Install dependencies
-      run: yarn install
-
-    - name: Build Bin
-      run: yarn run build-bin
+      - name: Build Bin
+        run: yarn run build-bin
