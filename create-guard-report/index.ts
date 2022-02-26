@@ -44,8 +44,9 @@ execSync(`cp -a ${inputPath} ${realTargetDir}`);
 
 // Creating the report
 console.log('Creating the report…');
+const outputFile = `${process.cwd()}/Guard\\ Report.html`;
 execSync(
-  `cd ${realTargetDir} && npm run create-report && mv ${realTargetDir}/build/index.html .`,
+  `cd ${realTargetDir} && npm run create-report && mv ${realTargetDir}/build/index.html ${outputFile}`,
   options
 );
 
