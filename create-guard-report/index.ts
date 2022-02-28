@@ -56,13 +56,13 @@ execSync(`cp -a ${inputPath} ${realTargetDir}`);
 
 // Setup the package name
 console.log('Preparing report…');
-execSync(`echo REACT_APP_PACKAGE=${appPackage} > .env`);
+execSync(`cd ${realTargetDir} && echo REACT_APP_PACKAGE=${appPackage} > .env`);
 
 // Creating the report
 console.log('Creating the report…');
 const outputFile = `${process.cwd()}/Guard\\ Report.html`;
 execSync(
-  `APP_PACKAGE=${appPackage} cd ${realTargetDir} && npm run create-report && mv ${realTargetDir}/build/index.html ${outputFile}`,
+  `APP_PACKAGE=${appPackage} npm run create-report && mv ${realTargetDir}/build/index.html ${outputFile}`,
   options
 );
 
