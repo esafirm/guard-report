@@ -187,7 +187,7 @@ lineReader.on('line', (line: string) => {
   const valid = isValidClass(line);
 
   if (valid) {
-    // console.log(`Visit class ${line}`);
+    console.log(`Visit class ${line}`);
 
     if (isParentClass(line)) {
       const normalizedValue = line.replace(':', '');
@@ -197,7 +197,7 @@ lineReader.on('line', (line: string) => {
       visitor.visitClass(line, true);
     }
   } else if (isInternalSymbol(line) && parentClass) {
-    // console.log(`visit internal $line : ${parentClass}`);
+    console.log(`visit internal $line : ${parentClass}`);
     visitor.visitInternalSymbol(line.trim(), parentClass);
   } else {
     // Invalid class
