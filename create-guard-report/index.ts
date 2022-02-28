@@ -4,7 +4,6 @@
 const fs = require('fs');
 const { execSync } = require('child_process');
 
-//@ts-ignore
 const configPath = process.argv[2] || 'gr-config.json';
 if (!fs.existsSync(configPath)) {
   throw new Error(
@@ -19,9 +18,10 @@ interface Config {
   path: string;
   package: string;
 }
-const data = fs.readFileSync('./input.txt', { encoding: 'utf8', flag: 'r' });
+const data = fs.readFileSync(configPath, { encoding: 'utf8', flag: 'r' });
 const config = JSON.parse(data);
 
+//@ts-ignore
 const inputPath = config.path;
 const appPackage = config.package;
 
@@ -62,7 +62,7 @@ execSync(`echo REACT_APP_PACKAGE=${appPackage} > .env`);
 console.log('Creating the report…');
 const outputFile = `${process.cwd()}/Guard\\ Report.html`;
 execSync(
-  `cd ${realTargetDir} && npm run create-report && mv ${realTargetDir}/build/index.html ${outputFile}`,
+  `APP_PACKAGE=${appPackage} cd ${realTargetDir} && npm run create-report && mv ${realTargetDir}/build/index.html ${outputFile}`,
   options
 );
 

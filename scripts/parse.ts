@@ -1,10 +1,17 @@
 /**
+ * Selected package name
+ * This is configured via .env
+ */
+const packageName: string = process.env.APP_PACKAGE || '';
+
+/**
  * @param line of the shrinking usage
  * @returns true if line is a valid class to be processed by the parser
  */
 function isValidClass(line: string): boolean {
+  const packageFilter = packageName ? line.startsWith(packageName) : true;
   return (
-    line.startsWith('com.gojek') &&
+    packageFilter &&
     !line.includes('$') &&
     !line.includes('_') &&
     !line.includes('.R') &&
@@ -180,7 +187,7 @@ lineReader.on('line', (line: string) => {
   const valid = isValidClass(line);
 
   if (valid) {
-    console.log(`Visit class ${line}`);
+    // console.log(`Visit class ${line}`);
 
     if (isParentClass(line)) {
       const normalizedValue = line.replace(':', '');
@@ -190,7 +197,7 @@ lineReader.on('line', (line: string) => {
       visitor.visitClass(line, true);
     }
   } else if (isInternalSymbol(line) && parentClass) {
-    console.log(`visit internal $line : ${parentClass}`);
+    // console.log(`visit internal $line : ${parentClass}`);
     visitor.visitInternalSymbol(line.trim(), parentClass);
   } else {
     // Invalid class
