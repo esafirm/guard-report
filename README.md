@@ -5,7 +5,7 @@ Proguard,Dexguard, and R8 Shrinking Report Generator
 ### Usage
 
 ```
-npx create-guardd-report usage.txt
+npx create-guard-report usage.txt
 ```
 
 ### License
