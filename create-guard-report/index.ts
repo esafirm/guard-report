@@ -63,7 +63,7 @@ execSync(`cd ${realTargetDir} && echo REACT_APP_PACKAGE=${appPackage} > .env`);
 // Creating the report
 console.log('Creating the report…');
 const outputFile = `${process.cwd()}/Guard\\ Report.html`;
-const env = `APP_PACKAGE=${appPackage} GR_INCLUDE_LIBRARIES=${includeLibraries}`;
+const env = `APP_PACKAGE=${appPackage} GR_INCLUDE_LIBRARIES=${includeLib}`;
 
 execSync(
   `${env} npm run create-report && mv ${realTargetDir}/build/index.html ${outputFile}`,
