@@ -4,5 +4,6 @@ export default class Colors {
   static YELLOW = '#EEAD3C';
   static GREEN = '#3C7D40';
   static PURPLE = '#964FEB';
+  static CYAN = '#00BCD4';
   static BLACK = '#606367';
 }

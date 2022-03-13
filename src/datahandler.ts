@@ -42,30 +42,25 @@ export function getDataArray(): JsonItem[] {
   return dataArray;
 }
 
-const APP_PACKAGE = process.env.REACT_APP_PACKAGE;
-
-function getPackageName(parent: string) {
-  const className = parent.substring(parent.lastIndexOf('.'));
-  const processed = parent
-    .replace(`${APP_PACKAGE}.`, '')
-    .replace(className, '');
-
-  const firstDot = processed.indexOf('.');
-  // This means it only three or 4 level package
-  // Ex: com.example.processor.ProcessorInterface
-  if (firstDot === -1) {
-    return processed;
-  }
-
-  const secondDot = processed.indexOf('.', firstDot + 1);
-  let packageName = processed.substring(0, secondDot);
-
-  // This means it has 5 level package
-  if (!packageName) {
-    return processed;
-  }
-
-  return packageName;
+/**
+ * Return package name from a canonical class name
+ * The constraint of a package is the class have 4 directory depth
+ *
+ * For example:
+ *
+ * com.example.ClassHelper => com.example
+ * com.example.utils.ClassUtils => com.example.utils
+ * com.example.utils.parser.TestParser => com.example.utils.parser
+ * com.example.utils.parser.impl => com.example.utils.parser
+ *
+ * @param parent - canonical class name
+ * @returns package name
+ */
+function getPackageName(parent: string): string {
+  const parts = parent.split('.');
+  const partsLength = parts.length;
+  let sliceIndex = Math.min(partsLength - 1, 3);
+  return parts.slice(0, sliceIndex).join('.');
 }
 
 export function getPackageArray(): ProcessedJson {
@@ -77,7 +72,7 @@ export function getPackageArray(): ProcessedJson {
       const parent = item.parent;
       const packageName = getPackageName(parent);
 
-      const key = `${APP_PACKAGE}.${packageName}`;
+      const key = packageName;
       let array = result[key];
       if (!array) {
         array = [];

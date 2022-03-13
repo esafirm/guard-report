@@ -42,6 +42,9 @@ function getTagColor(tag: string) {
   if (tag === 'binding') {
     return Colors.PURPLE;
   }
+  if (tag === 'library') {
+    return Colors.CYAN;
+  }
   return Colors.BLACK;
 }
 
