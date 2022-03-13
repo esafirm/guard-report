@@ -17,6 +17,7 @@ const branch = process.argv[3] || 'main';
 interface Config {
   path: string;
   package: string;
+  includeLib: boolean;
 }
 const data = fs.readFileSync(configPath, { encoding: 'utf8', flag: 'r' });
 const config = JSON.parse(data);
@@ -24,6 +25,7 @@ const config = JSON.parse(data);
 //@ts-ignore
 const inputPath = config.path;
 const appPackage = config.package;
+const includeLib = config.includeLib || false;
 
 const zipFile = `https://github.com/esafirm/guard-report/archive/refs/heads/${branch}.zip`;
 const targetFile = '/tmp/template.zip';
@@ -61,8 +63,10 @@ execSync(`cd ${realTargetDir} && echo REACT_APP_PACKAGE=${appPackage} > .env`);
 // Creating the report
 console.log('Creating the report…');
 const outputFile = `${process.cwd()}/Guard\\ Report.html`;
+const env = `APP_PACKAGE=${appPackage} GR_INCLUDE_LIBRARIES=${includeLibraries}`;
+
 execSync(
-  `APP_PACKAGE=${appPackage} npm run create-report && mv ${realTargetDir}/build/index.html ${outputFile}`,
+  `${env} npm run create-report && mv ${realTargetDir}/build/index.html ${outputFile}`,
   options
 );
 

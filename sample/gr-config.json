@@ -1,4 +1,5 @@
 {
-	"path":  "usage.txt",
-	"package": "app.tivi"
+  "path": "usage.txt",
+  "package": "app.tivi",
+  "incldueLib": true
 }

@@ -2,14 +2,23 @@
  * Selected package name
  * This is configured via .env
  */
-const packageName: string = process.env.APP_PACKAGE || '';
+const appPackageName: string = process.env.APP_PACKAGE || '';
+const includeLibraries: boolean = process.env.GR_INCLUDE_LIB === 'true';
+
+if (!appPackageName) {
+  throw Error(
+    'package name is not exists. Please provide it in your config with "package" key'
+  );
+}
 
 /**
  * @param line of the shrinking usage
  * @returns true if line is a valid class to be processed by the parser
  */
 function isValidClass(line: string): boolean {
-  const packageFilter = packageName ? line.startsWith(packageName) : true;
+  const packageFilter = !includeLibraries
+    ? line.startsWith(appPackageName)
+    : true;
   return (
     packageFilter &&
     !line.includes('$') &&
@@ -21,6 +30,16 @@ function isValidClass(line: string): boolean {
     !line.endsWith('Module') && // Dagger module
     !line.endsWith('Component')
   ); // Dagger component
+}
+
+/**
+ * Indicate if a line is part of library class
+ *
+ * @param line of the shrinking usage
+ * @returns true if line indicate a library class
+ */
+function isLibraryClass(line: string): boolean {
+  return !line.startsWith(appPackageName);
 }
 
 /**
@@ -158,15 +177,21 @@ class ProguardResultVisitorImpl implements ProguardResultVisitor {
     if (isBindingClass(line)) {
       resultBuilder.addTag(line, 'binding');
     }
+
+    if (isLibraryClass(line)) {
+      resultBuilder.addTag(line, 'library');
+    }
   }
 }
 
 /* Main */
 /* ------------------------------------------ */
 
+//@ts-ignore also declaared in index.ts
 const fs = require('fs');
 const readline = require('readline');
 
+//@ts-ignore also declaared in index.ts
 const inputPath = 'usage.txt';
 const outputPath = 'src/data.json';
 
