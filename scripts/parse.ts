@@ -18,7 +18,7 @@ if (!appPackageName) {
 function isValidClass(line: string): boolean {
   const packageFilter = !includeLibraries
     ? line.startsWith(appPackageName)
-    : true;
+    : !isInternalSymbol(line);
   return (
     packageFilter &&
     !line.includes('$') &&
