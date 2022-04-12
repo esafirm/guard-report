@@ -46,6 +46,7 @@ const targetDir = '/tmp/cgr-template/';
 const realTargetDir = `${targetDir}guard-report-${branch}`;
 
 const options = { stdio: 'ignore' };
+const openCommand = `cd ${realTargetDir}`;
 
 // Printing info
 console.log(`Using ${inputPath} as the input`);
@@ -71,14 +72,14 @@ execSync(`cp -a ${inputPath} ${realTargetDir}`);
 
 // Setup the package name
 console.log('Preparing report…');
-execSync(`cd ${realTargetDir} && echo REACT_APP_PACKAGE=${appPackage} > .env`);
+execSync(`${openCommand} && echo REACT_APP_PACKAGE=${appPackage} > .env`);
 
 // Creating the report
 console.log('Creating the report…');
 const outputFile = `${process.cwd()}/Guard\\ Report.html`;
 const env = `APP_PACKAGE=${appPackage} GR_INCLUDE_LIBRARIES=${includeLib}`;
 
-execSync(`${env} npm run create-report`, options);
+execSync(`${env} ${openCommand} && npm run create-report`, options);
 execSync(`mv ${realTargetDir}/build/index.html ${outputFile}`);
 
 // Cleanup
