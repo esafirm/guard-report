@@ -74,12 +74,16 @@ execSync(`cp -a ${inputPath} ${realTargetDir}`);
 console.log('Preparing report…');
 execSync(`${openCommand} && echo REACT_APP_PACKAGE=${appPackage} > .env`);
 
+// Installing dependencies
+console.log('Installing dependencies…');
+execSync(`${openCommand} && npm install --install`);
+
 // Creating the report
 console.log('Creating the report…');
 const outputFile = `${process.cwd()}/Guard\\ Report.html`;
 const env = `APP_PACKAGE=${appPackage} GR_INCLUDE_LIBRARIES=${includeLib}`;
 
-execSync(`${env} ${openCommand} && npm run create-report`, options);
+execSync(`${openCommand} && ${env} npm run create-report`, options);
 execSync(`mv ${realTargetDir}/build/index.html ${outputFile}`);
 
 // Cleanup
