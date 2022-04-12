@@ -4,10 +4,23 @@
 const fs = require('fs');
 const { execSync } = require('child_process');
 
+if (process.argv[2] === '--help') {
+  console.log(`
+
+    == Guard Report ==
+
+    Usage:
+    - npx create-guard-report <usage-file>
+    - npx create-guard-report <usage-file> <branch>
+
+  `);
+  process.exit(0);
+}
+
 const configPath = process.argv[2] || 'gr-config.json';
 if (!fs.existsSync(configPath)) {
   throw new Error(
-    'You must have gr-config.json in the root of directory or provide it with create-guard-report <usage file>'
+    'You must have gr-config.json in the root of directory or provide it with create-guard-report <usage-file>'
   );
 }
 
@@ -65,10 +78,8 @@ console.log('Creating the report…');
 const outputFile = `${process.cwd()}/Guard\\ Report.html`;
 const env = `APP_PACKAGE=${appPackage} GR_INCLUDE_LIBRARIES=${includeLib}`;
 
-execSync(
-  `${env} npm run create-report && mv ${realTargetDir}/build/index.html ${outputFile}`,
-  options
-);
+execSync(`${env} npm run create-report`, options);
+execSync(`mv ${realTargetDir}/build/index.html ${outputFile}`);
 
 // Cleanup
 console.log('Clean up…');
