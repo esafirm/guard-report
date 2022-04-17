@@ -66,10 +66,11 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "build-sample": "ts-node --skip-project create-guard-report/index.ts sample/gr-config.json",
     "test": "node scripts/test.js",
     "parse": "ts-node --skip-project scripts/parse.ts",
     "build-bin": "tsc ./create-guard-report/index.ts --skipLibCheck --outfile build/bin/index.js && chmod +x build/bin/index.js",
-    "create-report": "npm install --silent && npm run parse && npm run build"
+    "create-report": "npm run parse && npm run build"
   },
   "bin": {
     "create-guard-report": "./build/bin/index.js"

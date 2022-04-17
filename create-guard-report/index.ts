@@ -4,10 +4,23 @@
 const fs = require('fs');
 const { execSync } = require('child_process');
 
+if (process.argv[2] === '--help') {
+  console.log(`
+
+    == Guard Report ==
+
+    Usage:
+    - npx create-guard-report <usage-file>
+    - npx create-guard-report <usage-file> <branch>
+
+  `);
+  process.exit(0);
+}
+
 const configPath = process.argv[2] || 'gr-config.json';
 if (!fs.existsSync(configPath)) {
   throw new Error(
-    'You must have gr-config.json in the root of directory or provide it with create-guard-report <usage file>'
+    'You must have gr-config.json in the root of directory or provide it with create-guard-report <usage-file>'
   );
 }
 
@@ -33,6 +46,7 @@ const targetDir = '/tmp/cgr-template/';
 const realTargetDir = `${targetDir}guard-report-${branch}`;
 
 const options = { stdio: 'ignore' };
+const openCommand = `cd ${realTargetDir}`;
 
 // Printing info
 console.log(`Using ${inputPath} as the input`);
@@ -58,17 +72,19 @@ execSync(`cp -a ${inputPath} ${realTargetDir}`);
 
 // Setup the package name
 console.log('Preparing report…');
-execSync(`cd ${realTargetDir} && echo REACT_APP_PACKAGE=${appPackage} > .env`);
+execSync(`${openCommand} && echo REACT_APP_PACKAGE=${appPackage} > .env`);
+
+// Installing dependencies
+console.log('Installing dependencies…');
+execSync(`${openCommand} && npm install --install`);
 
 // Creating the report
 console.log('Creating the report…');
 const outputFile = `${process.cwd()}/Guard\\ Report.html`;
 const env = `APP_PACKAGE=${appPackage} GR_INCLUDE_LIBRARIES=${includeLib}`;
 
-execSync(
-  `${env} npm run create-report && mv ${realTargetDir}/build/index.html ${outputFile}`,
-  options
-);
+execSync(`${openCommand} && ${env} npm run create-report`, options);
+execSync(`mv ${realTargetDir}/build/index.html ${outputFile}`);
 
 // Cleanup
 console.log('Clean up…');
