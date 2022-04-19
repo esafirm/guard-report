@@ -1,11 +1,11 @@
 /**
  * Parse the usage.txt generated from dexguard/proguard/R8 into a json file
  * that will be consumed by the react app. Check `outputPath` for the output json
- * 
+ *
  * Author @esafirm
  */
 
-/** 
+/**
  * Selected package name
  * This is configured via .env
  */

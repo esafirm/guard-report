@@ -51,6 +51,7 @@ const openCommand = `cd ${realTargetDir}`;
 // Printing info
 console.log(`Using ${inputPath} as the input`);
 console.log(`Using ${appPackage} as app package`);
+console.log(`Include libraries set to ${includeLib}`);
 
 // Prepare env
 execSync(`rm -rf ${targetFile} ${targetDir}`, options);
@@ -81,7 +82,7 @@ execSync(`${openCommand} && npm install --install`);
 // Creating the report
 console.log('Creating the report…');
 const outputFile = `${process.cwd()}/Guard\\ Report.html`;
-const env = `APP_PACKAGE=${appPackage} GR_INCLUDE_LIBRARIES=${includeLib}`;
+const env = `APP_PACKAGE=${appPackage} GR_INCLUDE_LIB=${includeLib}`;
 
 execSync(`${openCommand} && ${env} npm run create-report`, options);
 execSync(`mv ${realTargetDir}/build/index.html ${outputFile}`);
